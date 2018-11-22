@@ -5,3 +5,4 @@ tags
 *.out
 lua
 luac
+Makefile

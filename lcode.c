@@ -808,6 +808,7 @@ static int luaK_code (FuncState *fs, Instruction i, int line) {
 	luaM_growvector(fs->L, f->code, fs->pc, f->sizecode, Instruction,
 			MAX_INT, "code size overflow");
 	f->code[fs->pc] = i;
+	printInst(fs->pc, i);
 	/* save corresponding line information */
 	luaM_growvector(fs->L, f->lineinfo, fs->pc, f->sizelineinfo, int,
 			MAX_INT, "code size overflow");
@@ -844,3 +845,13 @@ void luaK_setlist (FuncState *fs, int base, int nelems, int tostore) {
 	fs->freereg = base + 1;  /* free registers with list values */
 }
 
+//xhx
+void printInst(int idx, Instruction i) {
+	int opcode = GET_OPCODE(i);
+	if (getOpMode(opcode) == iABC)
+		printf("CODE: %d ========= %s %d %d %d\n", idx,luaP_opnames[opcode], GETARG_A(i), GETARG_B(i), GETARG_C(i));
+	else if (getOpMode(opcode) == iABx)
+		printf("CODE: %d ========= %s %d %d\n", idx, luaP_opnames[opcode], GETARG_A(i), GETARG_Bx(i));
+	else
+		printf("CODE: %d ========= %s %d %u\n", idx, luaP_opnames[opcode], GETARG_A(i), GETARG_sBx(i));
+}

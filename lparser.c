@@ -397,6 +397,17 @@ Proto *luaY_parser (lua_State *L, ZIO *z, Mbuffer *buff, const char *name) {
 	lua_assert(funcstate.prev == NULL);
 	lua_assert(funcstate.f->nups == 0);
 	lua_assert(lexstate.fs == NULL);
+
+	//xhx start
+	printf("============ done =================\n");
+	for(int i = 0; i < funcstate.f->sizecode; i++)
+	{
+		Instruction ii = funcstate.f->code[i];
+		printInst(i, ii);
+	}
+	//xhx end
+
+
 	return funcstate.f;
 }
 
