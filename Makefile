@@ -8,7 +8,7 @@
 PLAT= linux
 
 CC= gcc
-CFLAGS= -O2 -Wall $(MYCFLAGS)
+CFLAGS= -g -O2 -Wall $(MYCFLAGS)
 AR= ar rcu
 RANLIB= ranlib
 RM= rm -f
@@ -35,8 +35,11 @@ LUA_O=	lua.o
 LUAC_T=	luac
 LUAC_O=	luac.o print.o
 
-ALL_O= $(CORE_O) $(LIB_O) $(LUA_O) $(LUAC_O)
-ALL_T= $(LUA_A) $(LUA_T) $(LUAC_T)
+LUAX_T = main
+LUAX_O = main.o
+
+ALL_O= $(CORE_O) $(LIB_O) $(LUA_O) $(LUAC_O) $(LUAX_O)
+ALL_T= $(LUA_A) $(LUA_T) $(LUAC_T) $(LUAX_T)
 ALL_A= $(LUA_A)
 
 default: $(PLAT)
@@ -56,6 +59,9 @@ $(LUA_T): $(LUA_O) $(LUA_A)
 
 $(LUAC_T): $(LUAC_O) $(LUA_A)
 	$(CC) -o $@ $(MYLDFLAGS) $(LUAC_O) $(LUA_A) $(LIBS)
+
+$(LUAX_T): $(LUAX_O) $(LUA_A)
+	$(CC) -o $@ $(MYLDFLAGS) $(LUAX_O) $(LUA_A) $(LIBS)
 
 clean:
 	$(RM) $(ALL_T) $(ALL_O)
