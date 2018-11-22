@@ -1,0 +1,7 @@
+tags
+*.lua
+*.o
+*.a
+*.out
+lua
+luac
