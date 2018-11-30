@@ -5,10 +5,10 @@
 # == CHANGE THE SETTINGS BELOW TO SUIT YOUR ENVIRONMENT =======================
 
 # Your platform. See PLATS for possible values.
-PLAT= macosx
+PLAT= linux
 
 CC= gcc
-CFLAGS= -g -O2 -Wall $(MYCFLAGS)
+CFLAGS= -g3 -O0 -Wall $(MYCFLAGS)
 AR= ar rcu
 RANLIB= ranlib
 RM= rm -f

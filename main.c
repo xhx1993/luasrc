@@ -22,7 +22,6 @@ int main()
 	luaL_openlibs(L);
 
 	const char *fname = "test.lua";
-	if (luaL_loadfile(L, fname) != 0) lua_error(L);
-	lua_call(L, 0, LUA_MULTRET);
+	luaL_dofile(L, fname);
 	return 0;
 }

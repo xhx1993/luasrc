@@ -288,7 +288,7 @@ static void enterlevel (LexState *ls) {
 static void enterblock (FuncState *fs, BlockCnt *bl, lu_byte isbreakable) {
 	bl->breaklist = NO_JUMP;
 	bl->isbreakable = isbreakable;
-	bl->nactvar = fs->nactvar;
+	bl->nactvar = fs->nactvar; //进入block时，记录当前fs->nactvar个数, 判断var在block
 	bl->upval = 0;
 	bl->previous = fs->bl;
 	fs->bl = bl;
@@ -400,7 +400,8 @@ Proto *luaY_parser (lua_State *L, ZIO *z, Mbuffer *buff, const char *name) {
 
 	//xhx start
 	printf("============ done =================\n");
-	for(int i = 0; i < funcstate.f->sizecode; i++)
+	int i;
+	for(i = 0; i < funcstate.f->sizecode; i++)
 	{
 		Instruction ii = funcstate.f->code[i];
 		printInst(i, ii);
@@ -892,7 +893,7 @@ static int block_follow (int token) {
 	}
 }
 
-
+//通过block进入的是unbreakable
 static void block (LexState *ls) {
 	/* block -> chunk */
 	FuncState *fs = ls->fs;
@@ -960,6 +961,7 @@ static void assignment (LexState *ls, struct LHS_assign *lh, int nvars) {
 	else {  /* assignment -> `=' explist1 */
 		int nexps;
 		checknext(ls, '=');
+
 		nexps = explist1(ls, &e);
 		if (nexps != nvars) {
 			adjust_assign(ls, nvars, nexps, &e);

@@ -35,7 +35,7 @@ static int isnumeral(expdesc *e) {
 void luaK_nil (FuncState *fs, int from, int n) {
 	Instruction *previous;
 	if (fs->pc > fs->lasttarget) {  /* no jumps to current position? */ //看不懂
-		if (fs->pc == 0) {  /* function start? */
+		if (fs->pc == 0) {  /* function start? */ //开始的loadnil忽略
 			if (from >= fs->nactvar)
 				return;  /* positions are already clean */
 		}
@@ -520,6 +520,7 @@ void luaK_self (FuncState *fs, expdesc *e, expdesc *key) {
 }
 
 
+//把上条LT指令的A取反
 static void invertjump (FuncState *fs, expdesc *e) {
 	Instruction *pc = getjumpcontrol(fs, e->u.s.info);
 	lua_assert(testTMode(GET_OPCODE(*pc)) && GET_OPCODE(*pc) != OP_TESTSET &&
@@ -853,5 +854,5 @@ void printInst(int idx, Instruction i) {
 	else if (getOpMode(opcode) == iABx)
 		printf("CODE: %d ========= %s %d %d\n", idx, luaP_opnames[opcode], GETARG_A(i), GETARG_Bx(i));
 	else
-		printf("CODE: %d ========= %s %d %u\n", idx, luaP_opnames[opcode], GETARG_A(i), GETARG_sBx(i));
+		printf("CODE: %d ========= %s %d %d\n", idx, luaP_opnames[opcode], GETARG_A(i), GETARG_sBx(i));
 }
