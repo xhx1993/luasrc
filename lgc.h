@@ -67,7 +67,7 @@
 #define isgray(x)	(!isblack(x) && !iswhite(x))
 
 #define otherwhite(g)	(g->currentwhite ^ WHITEBITS)
-#define isdead(g,v)	((v)->gch.marked & otherwhite(g) & WHITEBITS)
+#define isdead(g,v)	((v)->gch.marked & otherwhite(g) & WHITEBITS) //white两种状态，如果设置了跟currentwhite相反的whitebit,则说明是上一次gc留下来的，已经dead了。因为gc是分步的, gc结束前，可能有新的white节点加入
 
 #define changewhite(x)	((x)->gch.marked ^= WHITEBITS)
 #define gray2black(x)	l_setbit((x)->gch.marked, BLACKBIT)
